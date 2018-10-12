@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,24 +14,40 @@ public class GuessTheNumberGame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _guessNumber = Random.Range(0, 100);
+        _guessNumber = UnityEngine.Random.Range(0, 100);
 	}
 	
     public void CheckGuess()
     {
-        _usersGuess = int.Parse(input.text);
+        try
+        {
+            _usersGuess = int.Parse(input.text);
 
-        if(_usersGuess == _guessNumber)
-        {
-            infoText.text = "You Guessed Right! Yer a Wizard Harry";
-        }else if(_usersGuess > _guessNumber)
-        {
-            infoText.text = "Your number is too high";
-        }else if(_usersGuess < _guessNumber)
-        {
-            infoText.text = "Too low, try again!";
+            if (_usersGuess == _guessNumber)
+            {
+                infoText.text = "You Guessed Right! Yer a Wizard Harry";
+            }
+            else if (_usersGuess > _guessNumber)
+            {
+                infoText.text = "Your number is too high";
+            }
+            else if (_usersGuess < _guessNumber)
+            {
+                infoText.text = "Too low, try again!";
+            }
+
+            input.text = "";
         }
+        catch (Exception ex)
+        {
+            infoText.text = "That's not even a number ya fool!";
+        }
+    }
 
-        input.text = "";
+    public void Reset()
+    {
+        infoText.text = "Guess a number between 0 - 100";
+
+        Start();
     }
 }
